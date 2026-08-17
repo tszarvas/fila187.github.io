@@ -1,11 +1,576 @@
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Welcome to my world</title>
-            </head>
-    <body>
-        <h2 style="text-align: center">Coming soon, Mutherfucker</h2>
-                    </body>
+<html lang="hu" data-lang="hu" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamás Szarvas — Full-stack developer</title>
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta name="description" content="Tamás Szarvas — senior full-stack developer. PHP/Symfony background, extended into React and Flutter. Portfolio &amp; CV, Budapest.">
+
+<!-- Google Analytics (GA4) — Consent Mode: no analytics/ad cookies until visitor accepts -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'wait_for_update': 500
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNR3H26MBY"></script>
+<script>
+  gtag('js', new Date());
+  gtag('config', 'G-ZNR3H26MBY', { 'anonymize_ip': true });
+</script>
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tamasszarvas.me/">
+<meta property="og:title" content="Tamás Szarvas — Full-stack developer">
+<meta property="og:description" content="Tamás Szarvas — senior full-stack developer. PHP/Symfony background, extended into React and Flutter. Portfolio &amp; CV, Budapest.">
+<meta property="og:image" content="https://tamasszarvas.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tamás Szarvas — Full-stack developer">
+<meta name="twitter:description" content="Tamás Szarvas — senior full-stack developer. PHP/Symfony background, extended into React and Flutter. Portfolio &amp; CV, Budapest.">
+<meta name="twitter:image" content="https://tamasszarvas.me/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  // Korai, render-blokkoló beállítás — a <style> elé kerül, hogy ne legyen
+  // "flash of wrong theme/lang" az első kirajzolásnál.
+  // Sorrend mindkét esetben: elmentett felhasználói preferencia (localStorage) >
+  // automatikus detekció (böngésző nyelve / OS téma) > végső fallback.
+  (function () {
+    try {
+      var html = document.documentElement;
+
+      // --- Nyelv: localStorage > böngésző nyelve > HU (fallback) ---
+      var storedLang = localStorage.getItem('lang');
+      var lang;
+      if (storedLang === 'hu' || storedLang === 'en') {
+        lang = storedLang;
+      } else {
+        var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+        lang = browserLang.indexOf('hu') === 0 ? 'hu' : 'en';
+      }
+      html.lang = lang;
+      html.dataset.lang = lang;
+
+      // --- Téma: localStorage > OS-preferencia (prefers-color-scheme) > light (fallback) ---
+      var storedTheme = localStorage.getItem('theme');
+      var theme;
+      if (storedTheme === 'dark' || storedTheme === 'light') {
+        theme = storedTheme;
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme = 'dark';
+      } else {
+        theme = 'light';
+      }
+      html.dataset.theme = theme;
+    } catch (e) {
+      // localStorage vagy matchMedia nem elérhető (pl. letiltva) —
+      // ez esetben a HTML-ben megadott statikus alapértelmezés marad érvényben.
+    }
+  })();
+</script>
+<style>
+  :root{
+    --bg:#0D1013; --surface:#14181C; --border:#23282D;
+    --text:#F5F7F6; --text-secondary:#9099A3; --text-muted:#5B6470;
+    --accent:#5DCAA5; --accent-soft:rgba(93,202,165,0.12);
+    --font-sans:'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    --radius:10px;
+    --maxw:880px;
+  }
+  html[data-theme="light"]{
+    --bg:#FBFCFB; --surface:#F1F3F1; --border:#E4E7E5;
+    --text:#181A19; --text-secondary:#6B716C; --text-muted:#8B9189;
+    --accent:#0F6E56; --accent-soft:rgba(15,110,86,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-sans);
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:var(--font-mono);}
+  a{color:inherit; text-decoration:none;}
+  section{max-width:var(--maxw); margin:0 auto; padding:88px 24px;}
+  h1,h2,h3{font-weight:500; line-height:1.25;}
+  h2{font-size:28px; margin-bottom:32px;}
+  p{color:var(--text-secondary);}
+
+  /* --- nav --- */
+  header.nav{
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
+    background:color-mix(in srgb, var(--bg) 85%, transparent);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:var(--maxw); margin:0 auto;
+  }
+  .logo{font-family:var(--font-mono); font-size:18px; color:var(--accent);}
+  .logo .bracket{color:var(--text-muted);}
+  .nav-links{display:flex; gap:28px; font-size:14px;}
+  .nav-links a{color:var(--text-secondary); transition:color .15s;}
+  .nav-links a:hover{color:var(--text);}
+  .utility{display:flex; align-items:center; gap:14px; font-family:var(--font-mono); font-size:13px;}
+  .utility button{
+    background:none; border:1px solid var(--border); color:var(--text-secondary);
+    border-radius:6px; padding:6px 10px; cursor:pointer; font-family:var(--font-mono); font-size:12px;
+  }
+  .utility button:hover{border-color:var(--accent); color:var(--accent);}
+  .btn-cv{
+    border:1px solid var(--accent); color:var(--accent); border-radius:6px;
+    padding:6px 12px; font-size:12px; white-space:nowrap;
+  }
+  .hamburger{display:none; background:none; border:none; color:var(--text); font-size:22px; cursor:pointer;}
+
+  /* --- hero --- */
+  .hero{
+    min-height:78vh; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; gap:16px;
+    animation:fadeUp .7s ease-out both;
+  }
+  .hero .logo{font-size:34px;}
+  .hero h1{font-size:clamp(30px,5vw,46px);}
+  .hero .role{color:var(--accent); font-family:var(--font-mono); font-size:16px;}
+  .hero .tagline{max-width:520px; margin-top:4px;}
+  .cta-row{display:flex; gap:14px; margin-top:18px; flex-wrap:wrap; justify-content:center;}
+  .btn{
+    font-family:var(--font-mono); font-size:14px; padding:12px 22px; border-radius:8px;
+    border:1px solid var(--border); transition:.15s;
+  }
+  .btn-primary{background:var(--accent); color:var(--bg); border-color:var(--accent);}
+  .btn-primary:hover{opacity:.88;}
+  .btn-secondary{color:var(--text); border-color:var(--border);}
+  .btn-secondary:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* --- about --- */
+  .about p{font-size:17px; margin-bottom:16px; color:var(--text-secondary);}
+  .about strong{color:var(--text); font-weight:500;}
+
+  /* --- skills --- */
+  .skill-group{margin-bottom:28px;}
+  .skill-group h3{font-family:var(--font-mono); font-size:13px; color:var(--text-muted); margin-bottom:12px; letter-spacing:.02em;}
+  .badges{display:flex; flex-wrap:wrap; gap:8px;}
+  .badge{
+    font-family:var(--font-mono); font-size:12.5px; padding:6px 12px; border-radius:6px;
+    border:1px solid var(--border); color:var(--text-secondary);
+  }
+  .badge.core{background:var(--accent-soft); border-color:var(--accent); color:var(--accent);}
+
+  /* --- experience --- */
+  .timeline-item{
+    display:grid; grid-template-columns:130px 1fr; gap:20px;
+    padding:22px 0; border-bottom:1px solid var(--border);
+  }
+  .timeline-item:last-child{border-bottom:none;}
+  .timeline-item .date{font-family:var(--font-mono); font-size:13px; color:var(--text-muted); white-space:nowrap;}
+  .timeline-item h3{font-size:17px; margin-bottom:2px;}
+  .timeline-item .company{color:var(--accent); font-size:14px; margin-bottom:8px; display:block;}
+  .timeline-item p{font-size:15px;}
+
+  /* --- projects --- */
+  .cards{display:grid; grid-template-columns:1fr; gap:20px;}
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px;}
+  .card.featured{border-color:var(--accent);}
+  .card h3{font-size:19px; margin-bottom:10px;}
+  .card p{font-size:15px; margin-bottom:16px;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{font-family:var(--font-mono); font-size:11.5px; padding:4px 10px; border-radius:5px; border:1px solid var(--border); color:var(--text-muted);}
+  .tag.beta{border-style:dashed; color:var(--text-muted); font-style:italic;}
+  .tag.core{background:var(--accent-soft); border-color:var(--accent); color:var(--accent);}
+
+  /* --- contact --- */
+  .contact-list{display:flex; flex-direction:column; gap:14px; font-family:var(--font-mono); font-size:15px; margin-bottom:28px;}
+  .contact-list a{color:var(--text-secondary); transition:.15s;}
+  .contact-list a:hover{color:var(--accent);}
+
+  footer{
+    max-width:var(--maxw); margin:0 auto; padding:32px 24px 60px;
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text-muted); font-family:var(--font-mono); font-size:12px;
+    border-top:1px solid var(--border);
+  }
+
+  [data-lang="hu"] [data-lang-content="en"]{display:none;}
+  [data-lang="en"] [data-lang-content="hu"]{display:none;}
+
+  /* --- cookie consent banner --- */
+  #cookieConsent{
+    position:fixed; left:0; right:0; bottom:0; z-index:100;
+    background:var(--surface); border-top:1px solid var(--border);
+    padding:18px 24px; display:flex; flex-wrap:wrap; gap:16px;
+    align-items:center; justify-content:center;
+    box-shadow:0 -4px 16px rgba(0,0,0,.18);
+    animation:fadeUp .3s ease-out both;
+  }
+  #cookieConsent p{
+    flex:1 1 320px; max-width:640px; color:var(--text-secondary);
+    font-size:14px; line-height:1.5; margin:0;
+  }
+  #cookieConsent .actions{display:flex; gap:10px; flex:0 0 auto;}
+  #cookieConsent button{
+    font-family:var(--font-mono); font-size:13px; padding:9px 16px;
+    border-radius:6px; cursor:pointer; white-space:nowrap;
+  }
+  #cookieDecline{background:none; border:1px solid var(--border); color:var(--text-secondary);}
+  #cookieDecline:hover{border-color:var(--text-secondary); color:var(--text);}
+  #cookieAccept{background:var(--accent); border:1px solid var(--accent); color:var(--bg); font-weight:500;}
+  #cookieAccept:hover{opacity:.88;}
+
+  @keyframes fadeUp{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation:none !important; transition:none !important;}
+  }
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  @media (max-width:720px){
+    .nav-links{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      background:var(--bg); border-bottom:1px solid var(--border);
+      flex-direction:column; padding:16px 24px; gap:16px;
+    }
+    .nav-links.open{display:flex;}
+    .hamburger{display:block;}
+    .utility{font-size:11px; gap:8px;}
+    .timeline-item{grid-template-columns:1fr; gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="#hero" class="logo" aria-label="Home"><span class="bracket">&lt;</span>ts<span class="bracket">/&gt;</span></a>
+  <nav class="nav-links" id="navLinks">
+    <a href="#about"><span data-lang-content="hu">Rólam</span><span data-lang-content="en">About</span></a>
+    <a href="#skills"><span data-lang-content="hu">Skillek</span><span data-lang-content="en">Skills</span></a>
+    <a href="#experience"><span data-lang-content="hu">Tapasztalat</span><span data-lang-content="en">Experience</span></a>
+    <a href="#projects"><span data-lang-content="hu">Projektek</span><span data-lang-content="en">Projects</span></a>
+    <a href="#contact"><span data-lang-content="hu">Kapcsolat</span><span data-lang-content="en">Contact</span></a>
+  </nav>
+  <div class="utility">
+    <button id="langToggle" aria-label="Nyelv váltása">EN</button>
+    <button id="themeToggle" aria-label="Téma váltása">☀</button>
+    <a class="btn-cv mono cv-link" href="cv-szarvas-tamas-hu.pdf" download>
+      <span data-lang-content="hu">cv_letoltese()</span><span data-lang-content="en">download_cv()</span>
+    </a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menü" aria-expanded="false">☰</button>
+</header>
+
+<section class="hero" id="hero">
+  <div class="logo"><span class="bracket">&lt;</span>ts<span class="bracket">/&gt;</span></div>
+  <h1>Tamás Szarvas</h1>
+  <div class="role mono">Senior Symfony Engineer</div>
+  <p class="tagline">
+    <span data-lang-content="hu">Backend architekt mély PHP/Symfony gyökerekkel, React és Flutter szakértelemmel kiegészítve, hogy a teljes fejlesztési folyamatot végig tudjam vinni.</span>
+    <span data-lang-content="en">Backend architect with deep roots in PHP/Symfony, complemented by React and Flutter expertise to drive entire development pipelines.</span>
+  </p>
+  <div class="cta-row">
+    <a href="#contact" class="btn btn-primary">
+      <span data-lang-content="hu">kapcsolat()</span><span data-lang-content="en">contact()</span>
+    </a>
+    <a href="#projects" class="btn btn-secondary">
+      <span data-lang-content="hu">projektek_megtekintese()</span><span data-lang-content="en">view_projects()</span>
+    </a>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <h2><span data-lang-content="hu">Rólam</span><span data-lang-content="en">About</span></h2>
+  <div>
+    <p data-lang-content="hu">Senior Backend Fejlesztő és Symfony Specialista vagyok, <strong>10+ év</strong> tapasztalattal, alapvetően komplex, nagyvállalati webalkalmazások fejlesztésében, ügynökségi környezetben. Az utóbbi években React és Flutter irányba is kiterjesztettem a tudásomat, így erős full-stack látásmóddal rendelkezem, és szívesen dolgozom a teljes stacken, ha a projekt ezt igényli.</p>
+    <p data-lang-content="hu">Jelenleg nyitott vagyok új lehetőségekre — freelance együttműködésekre, termékvezérelt cégekre, vagy startup kezdeményezésekre —, előnyben részesítve a kisebb, fókuszált csapatokat a nagy multinacionális vállalatokkal szemben.</p>
+    <p data-lang-content="en">Senior Backend Engineer &amp; Symfony Specialist with <strong>10+ years</strong> of experience, primarily built around high-performance web applications in agency environments. In recent years, I have expanded my skillset into React and Flutter, allowing me to bring a strong full-stack vision and work across the entire stack when a project calls for it.</p>
+    <p data-lang-content="en">I'm currently open to new opportunities — freelance collaborations, product-driven teams, or startup ventures — with a clear preference for smaller, focused teams over large multinational corporations.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <h2><span data-lang-content="hu">Skillek</span><span data-lang-content="en">Skills</span></h2>
+
+  <div class="skill-group">
+    <h3>Backend</h3>
+    <div class="badges">
+      <span class="badge core">PHP 5.4–8.5</span>
+      <span class="badge core">Symfony 2.7–8.0</span>
+      <span class="badge core">Ibexa DXP / eZ Publish 5+</span>
+      <span class="badge">API Platform</span>
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <h3><span data-lang-content="hu">AI-asszisztált fejlesztés</span><span data-lang-content="en">AI-Assisted Development</span></h3>
+    <div class="badges">
+      <span class="badge core"><span data-lang-content="hu">Spec-driven fejlesztés</span><span data-lang-content="en">Spec-driven development</span></span>
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <h3>Frontend</h3>
+    <div class="badges">
+      <span class="badge">React (Symfony UX)</span>
+      <span class="badge">TypeScript</span>
+      <span class="badge core">Vanilla JS</span>
+      <span class="badge">jQuery</span>
+      <span class="badge core">Bootstrap / SCSS</span>
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <h3><span data-lang-content="hu">Mobil</span><span data-lang-content="en">Mobile</span></h3>
+    <div class="badges">
+      <span class="badge">Flutter</span>
+      <span class="badge">BLoC</span>
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <h3><span data-lang-content="hu">Adatbázis</span><span data-lang-content="en">Database</span></h3>
+    <div class="badges">
+      <span class="badge core">MySQL / MariaDB</span>
+      <span class="badge core">Doctrine ORM</span>
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <h3>DevOps</h3>
+    <div class="badges">
+      <span class="badge core">Docker</span>
+      <span class="badge core">DDEV</span>
+      <span class="badge core">Linux</span>
+      <span class="badge core">Platform.sh / Upsun</span>
+      <span class="badge">GitLab CI/CD</span>
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <h3><span data-lang-content="hu">Egyéb</span><span data-lang-content="en">Other</span></h3>
+    <div class="badges">
+      <span class="badge">Solr</span>
+      <span class="badge">Fastly</span>
+      <span class="badge">n8n</span>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <h2><span data-lang-content="hu">Tapasztalat</span><span data-lang-content="en">Experience</span></h2>
+
+  <div class="timeline-item">
+    <div class="date mono"><span data-lang-content="hu">2017–2026</span><span data-lang-content="en">2017–2026</span></div>
+    <div>
+      <h3>Senior Web Developer</h3>
+      <span class="company">Webtown</span>
+      <p data-lang-content="hu">Senior backend fejlesztőként dolgozom egy körülbelül tucatnyi ügyfélprojektből álló portfólión PHP és Symfony alapokon, a teljesen új, zöldmezős projektektől kezdve a nagyméretű legacy platformokig. Feladatköröm magában foglalja az architektúra tervezését, az adatbázis-sémák kialakítását és a meglévő kódbázisok modernizálását egy agilis csapaton belül. Az idő előrehaladtával a backend fókuszú tudásomat React és Flutter ismeretekkel egészítettem ki, ami erős full-stack látásmódot biztosít, és segít áthidalni a fejlesztési szakadékokat, ha a projekt úgy kívánja.</p>
+      <p data-lang-content="en">Senior backend engineer working on a portfolio of about a dozen client applications built on PHP and Symfony, ranging from brand new greenfield projects to high-scale legacy platforms. Responsible for architecture design, database schema planning, and modernizing existing codebases within an agile team. Over time, complemented my core backend expertise with React and Flutter to maintain a strong full-stack vision and bridge development gaps when needed.</p>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="date mono">2014–2017</div>
+    <div>
+      <h3>Web Software Engineer / Web Developer</h3>
+      <span class="company">Bemind</span>
+      <p data-lang-content="hu">Natív PHP és WordPress-alapú webfejlesztéssel kezdtem, ami az itt töltött időm nagy részét kitette. Idővel sikeresen léptem át a modern, objektumorientált fejlesztés világába, ahogy a cég elkezdte bevezetni a Symfony keretrendszert.</p>
+      <p data-lang-content="en">Started with core PHP and WordPress-based web development, which made up the majority of my tenure. Over time, successfully transitioned into modern, object-oriented development as the company began adopting the Symfony framework.</p>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="date mono">2013–2016</div>
+    <div>
+      <h3><span data-lang-content="hu">Korai karrier</span><span data-lang-content="en">Early career</span></h3>
+      <span class="company">Pannon Egyetem</span>
+      <p data-lang-content="hu">Egyetemi éveim alatt szereztem meg az első szakmai tapasztalataimat. Kari gyakornoki program keretében részt vettem egy JavaScript-alapú munkafolyamat-szerkesztő fejlesztésében, valamint egy külön megbízásos (contract) projekt keretében dolgoztam a hallgatók sportteljesítményét nyilvántartó alkalmazás karbantartásán és javításán.</p>
+      <p data-lang-content="en">Gained initial professional experience during my university years. Assisted in developing a JavaScript-based workflow editor during a faculty internship, and worked on a separate contract project maintaining and improving a student sports-performance tracking application.</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2><span data-lang-content="hu">Projektek</span><span data-lang-content="en">Projects</span></h2>
+  <div class="cards">
+    <div class="card featured">
+      <h3><span data-lang-content="hu">Futóverseny nevezési platform</span><span data-lang-content="en">Race registration platform</span></h3>
+      <p data-lang-content="hu">2022 óta futó, visszatérő egyedi megbízás, amely minden évben új üzleti igényekkel bővül. A projekt magában foglalja a teljes nevezési felület és az online fizetési rendszer fejlesztését, valamint a háttérfolyamatokat támogató backoffice rendszert. Tiszta Symfony alapú fejlesztés, amely erős termékszemléletet és hosszú távú tervezést igényel.</p>
+      <p data-lang-content="en">A recurring custom contract running since 2022, expanding with new business requirements every year. The project covers the complete registration portal, online payment gateway integration, and comprehensive backoffice support. Built on native Symfony, requires a strong product-driven mindset and long-term architectural planning.</p>
+      <div class="tags">
+        <span class="tag core">PHP</span>
+        <span class="tag core">Symfony</span>
+        <span class="tag"><span data-lang-content="hu">online fizetés</span><span data-lang-content="en">online payment</span></span>
+      </div>
+    </div>
+
+    <div class="card featured">
+      <h3>Saudipedia — Enterprise Content Platform</h3>
+      <p data-lang-content="hu">Többrétegű nagyvállalati projekt: egyedi Ibexa DXP-alapú CMS platform fejlesztése, valamint több mint 30 000 többnyelvű cikk (a teljes fordításokkal együtt) migrálása egy dokumentáció nélküli, legacy adatbázis-dumpból. A feladat során a nulláról rekonstruáltam az adatszerkezetet és a tartalmi kapcsolatokat. A platformhoz egy React/Flutter alapú mobil companion app is fejlesztés alatt áll.</p>
+      <p data-lang-content="en">A multi-layered enterprise project involving custom Ibexa DXP-based CMS development and the complex migration of 30,000+ multilingual articles from an undocumented legacy database dump. Successfully reconstructed the entire data structure and content relationships from scratch. The platform also includes a React/Flutter-based mobile companion app currently in beta.</p>
+      <div class="tags">
+        <span class="tag core">PHP</span>
+        <span class="tag core">Symfony</span>
+        <span class="tag core">Ibexa DXP</span>
+        <span class="tag">n8n</span>
+        <span class="tag beta">React / Flutter · beta</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span data-lang-content="hu">Hallgatói sportteljesítmény-nyilvántartó</span><span data-lang-content="en">Student Sports Performance Tracking Platform</span></h3>
+      <p data-lang-content="hu">Eredetileg natív PHP-ban írt egyetemi sportteljesítmény-követő alkalmazás, amelyet egy későbbi, egyedi megbízás keretében teljesen modernizáltam. A projekt legfőbb mérföldköve a legacy kódbázis szisztematikus átmigrálása és teljes újraírása volt modern Symfony architektúrára, garantálva a meglévő adatok folytonosságát és a rendszer stabilitását.</p>
+      <p data-lang-content="en">A student sports-performance tracking application originally written in native PHP, later fully modernized under a dedicated contract. The core milestone of the project was systematically migrating and rewriting the legacy codebase into a modern Symfony architecture, ensuring data continuity and system stability.</p>
+      <div class="tags">
+        <span class="tag core">PHP</span>
+        <span class="tag core">Symfony</span>
+        <span class="tag">Legacy Migration</span>
+        <span class="tag">Database Refactoring</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2><span data-lang-content="hu">Kapcsolat</span><span data-lang-content="en">Contact</span></h2>
+  <div class="contact-list">
+    <a href="mailto:hello@tamasszarvas.me">hello@tamasszarvas.me</a>
+    <a href="https://www.linkedin.com/in/tszarvas/" target="_blank" rel="noopener">linkedin.com/in/tszarvas</a>
+    <a href="https://github.com/tszarvas" target="_blank" rel="noopener">github.com/tszarvas</a>
+  </div>
+  <a href="cv-szarvas-tamas-hu.pdf" class="btn btn-primary cv-link" download>
+    <span data-lang-content="hu">cv_letoltese()</span><span data-lang-content="en">download_cv()</span>
+  </a>
+</section>
+
+<footer>
+  <span class="logo"><span class="bracket">&lt;</span>ts<span class="bracket">/&gt;</span></span>
+  <span>Tamás Szarvas<span id="footerYear"></span></span>
+</footer>
+
+<div id="cookieConsent" role="dialog" aria-label="Cookie consent" hidden>
+  <p>
+    <span data-lang-content="hu">Ez az oldal sütiket használ a látogatottság mérésére (Google Analytics). Adatgyűjtés csak elfogadás után indul.</span>
+    <span data-lang-content="en">This site uses cookies to measure traffic (Google Analytics). No data is collected until you accept.</span>
+  </p>
+  <div class="actions">
+    <button id="cookieDecline">
+      <span data-lang-content="hu">elutasítom()</span><span data-lang-content="en">decline()</span>
+    </button>
+    <button id="cookieAccept">
+      <span data-lang-content="hu">elfogadom()</span><span data-lang-content="en">accept()</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('footerYear').textContent = ' · ' + new Date().getFullYear();
+
+  const html = document.documentElement;
+  const langToggle = document.getElementById('langToggle');
+  const themeToggle = document.getElementById('themeToggle');
+
+  // A gombfeliratok mindig a fejben (early script) már beállított
+  // html[data-lang] / html[data-theme] állapotból szinkronizálódnak,
+  // így akkor is helyesek, ha a detektált/mentett érték eltér a
+  // markup-ban statikusan megadott alapértelmezéstől.
+  function syncLangButton(){
+    langToggle.textContent = html.dataset.lang === 'hu' ? 'EN' : 'HU';
+  }
+  function syncThemeButton(){
+    themeToggle.textContent = html.dataset.theme === 'dark' ? '☀' : '☾';
+  }
+  // CV letöltő gombok a mindenkori nyelvnek megfelelő PDF-re mutatnak
+  function syncCvLinks(){
+    var file = html.dataset.lang === 'hu' ? 'cv-szarvas-tamas-hu.pdf' : 'cv-szarvas-tamas-en.pdf';
+    document.querySelectorAll('.cv-link').forEach(function(a){ a.href = file; });
+  }
+  syncLangButton();
+  syncThemeButton();
+  syncCvLinks();
+
+  langToggle.addEventListener('click', function(){
+    const next = html.dataset.lang === 'hu' ? 'en' : 'hu';
+    html.lang = next;
+    html.dataset.lang = next;
+    try { localStorage.setItem('lang', next); } catch(e){}
+    syncLangButton();
+    syncCvLinks();
+  });
+
+  themeToggle.addEventListener('click', function(){
+    const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+    html.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch(e){}
+    syncThemeButton();
+  });
+
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', function(){
+    const open = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ navLinks.classList.remove('open'); });
+  });
+
+  // --- cookie consent (GA4 Consent Mode) ---
+  // Choice stored in localStorage: "granted" | "denied". Until a choice
+  // is made, GA stays in "denied" mode by default (set in <head>).
+  (function () {
+    var CONSENT_KEY = 'cookie_consent';
+    var banner = document.getElementById('cookieConsent');
+    var acceptBtn = document.getElementById('cookieAccept');
+    var declineBtn = document.getElementById('cookieDecline');
+
+    function updateConsent(state) {
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          analytics_storage: state,
+          ad_storage: state
+        });
+      }
+    }
+
+    var stored;
+    try { stored = localStorage.getItem(CONSENT_KEY); } catch (e) { stored = null; }
+
+    if (stored === 'granted') {
+      updateConsent('granted');
+    } else if (stored !== 'denied') {
+      banner.hidden = false;
+    }
+
+    acceptBtn.addEventListener('click', function () {
+      try { localStorage.setItem(CONSENT_KEY, 'granted'); } catch (e) {}
+      updateConsent('granted');
+      banner.hidden = true;
+    });
+
+    declineBtn.addEventListener('click', function () {
+      try { localStorage.setItem(CONSENT_KEY, 'denied'); } catch (e) {}
+      banner.hidden = true;
+    });
+  })();
+
+  // --- optional: track CV downloads as a GA4 event ---
+  document.querySelectorAll('a[download]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (typeof gtag === 'function') {
+        gtag('event', 'cv_download');
+      }
+    });
+  });
+</script>
+
+</body>
 </html>
