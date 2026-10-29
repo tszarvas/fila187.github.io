@@ -1,0 +1,27 @@
+---
+import { skills } from '../data/skills';
+import { localize, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="skills">
+  <h2>{t('nav.skills')}</h2>
+  {
+    skills.map((group) => (
+      <div class="skill-group">
+        <h3>{localize(group.title, lang)}</h3>
+        <div class="badges">
+          {group.badges.map((badge) => (
+            <span class:list={['badge', { core: badge.core }]}>{localize(badge.label, lang)}</span>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</section>

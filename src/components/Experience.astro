@@ -1,0 +1,27 @@
+---
+import { experience } from '../data/experience';
+import { localize, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="experience">
+  <h2>{t('nav.experience')}</h2>
+  {
+    experience.map((item) => (
+      <div class="timeline-item">
+        <div class="date mono">{item.date}</div>
+        <div>
+          <h3>{localize(item.role, lang)}</h3>
+          <span class="company">{item.company}</span>
+          <p>{item.description[lang]}</p>
+        </div>
+      </div>
+    ))
+  }
+</section>

@@ -1,0 +1,63 @@
+---
+import { getAlternateUrl, otherLang, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const other = otherLang(lang);
+---
+
+<header class="nav">
+  <a href="#hero" class="logo" aria-label={t('aria.home')}><span class="bracket">&lt;</span>ts<span class="bracket">/&gt;</span></a>
+  <nav class="nav-links" id="navLinks">
+    <a href="#about">{t('nav.about')}</a>
+    <a href="#skills">{t('nav.skills')}</a>
+    <a href="#experience">{t('nav.experience')}</a>
+    <a href="#projects">{t('nav.projects')}</a>
+    <a href="#contact">{t('nav.contact')}</a>
+  </nav>
+  <div class="utility">
+    <a class="lang-toggle" id="langToggle" href={getAlternateUrl(lang)} hreflang={other} lang={other} aria-label={t('aria.langToggle')}>{other.toUpperCase()}</a>
+    <button id="themeToggle" aria-label={t('aria.themeToggle')}>☀</button>
+    <a class="btn-cv mono cv-link" href={`/${t('cv.href')}`} download>{t('cv.download')}</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label={t('aria.menu')} aria-expanded="false">☰</button>
+</header>
+
+<script>
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle') as HTMLButtonElement;
+  const hamburger = document.getElementById('hamburger') as HTMLButtonElement;
+  const navLinks = document.getElementById('navLinks') as HTMLElement;
+
+  // A gombfelirat mindig a fejben (early script) már beállított
+  // html[data-theme] állapotból szinkronizálódik, így akkor is helyes,
+  // ha a mentett érték eltér a markup-ban megadott alapértelmezéstől.
+  function syncThemeButton() {
+    themeToggle.textContent = html.dataset.theme === 'dark' ? '☀' : '☾';
+  }
+  syncThemeButton();
+
+  themeToggle.addEventListener('click', () => {
+    const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+    html.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch (e) {}
+    syncThemeButton();
+  });
+
+  hamburger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(open));
+  });
+  navLinks.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

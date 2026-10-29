@@ -1,0 +1,30 @@
+---
+import { projects } from '../data/projects';
+import { localize, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="projects">
+  <h2>{t('nav.projects')}</h2>
+  <div class="cards">
+    {
+      projects.map((project) => (
+        <div class:list={['card', { featured: project.featured }]}>
+          <h3>{localize(project.title, lang)}</h3>
+          <p>{project.description[lang]}</p>
+          <div class="tags">
+            {project.tags.map((tag) => (
+              <span class:list={['tag', tag.variant]}>{localize(tag.label, lang)}</span>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

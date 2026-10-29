@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../i18n/ui';
+
+const hu = useTranslations('hu');
+const en = useTranslations('en');
+---
+
+<BaseLayout lang="hu" title={`404 — ${hu('404.title')}`} description={hu('404.text')} noindex>
+  <section class="hero">
+    <div class="logo"><span class="bracket">&lt;</span>ts<span class="bracket">/&gt;</span></div>
+    <h1>404</h1>
+    <p>{hu('404.title')}. {hu('404.text')}</p>
+    <p lang="en">{en('404.title')}. {en('404.text')}</p>
+    <div class="cta-row">
+      <a href="/" class="btn btn-primary">{hu('404.home')}</a>
+      <a href="/en/" class="btn btn-secondary" hreflang="en" lang="en">{en('404.home')}</a>
+    </div>
+  </section>
+</BaseLayout>
