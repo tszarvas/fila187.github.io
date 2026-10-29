@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Personal portfolio/CV site for Tamás Szarvas, built with Astro 7 and served by GitHub Pages at `tamasszarvas.me` (see `public/CNAME`). Hungarian is the default language at `/`, English lives at `/en/`; there is no auto-redirect by browser language. The migration history from the old single `index.html` is in `docs/astro-migration/`.
+Personal portfolio/CV site for Tamás Szarvas, built with Astro 7 and served by GitHub Pages at `tamasszarvas.me` (see `public/CNAME`). Hungarian is the default language at `/`, English lives at `/en/`; there is no auto-redirect by browser language.
 
 There is no test suite or linter. `npm run check` (`astro check`) is the type check.
 
