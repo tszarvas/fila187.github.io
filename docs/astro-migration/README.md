@@ -18,7 +18,7 @@ Moving the single-file `index.html` to Astro (latest, 7.x). Hungarian is the def
 - [x] [06 Analytics and cookie consent](06-analytics-cookie-consent.md)
 - [x] [07 SEO](07-seo.md)
 - [x] [08 GitHub Pages deploy](08-github-pages-deploy.md)
-- [ ] [09 Verification and cutover](09-verification-cutover.md)
+- [x] [09 Verification and cutover](09-verification-cutover.md)
 
 ## Dependencies
 

@@ -10,5 +10,5 @@ paths:
 
 - Code comments are written in Hungarian.
 - `is:inline` only for scripts that must run before render (theme) or before gtag (consent default). Everything else is a bundled `<script>`.
-- Keep markup and class names from the old `index.html`, so `global.css` applies unchanged.
+- Keep existing markup and class names in the components, so `global.css` keeps applying unchanged.
 - TypeScript is strict (`astro/tsconfigs/strict`); `npm run check` must pass.
