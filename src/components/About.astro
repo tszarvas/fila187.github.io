@@ -1,0 +1,18 @@
+---
+import { about } from '../data/about';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="about" id="about">
+  <h2>{t('nav.about')}</h2>
+  <div>
+    {about[lang].map((paragraph) => <p set:html={paragraph} />)}
+  </div>
+</section>

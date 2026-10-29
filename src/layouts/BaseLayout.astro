@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { lang, title, description, noindex = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang} data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <slot name="analytics" />
+    <slot name="seo" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      // Korai, render-blokkoló beállítás — a stíluslap elé kerül, hogy ne legyen
+      // "flash of wrong theme" az első kirajzolásnál.
+      // Sorrend: elmentett felhasználói preferencia (localStorage) >
+      // OS-preferencia (prefers-color-scheme) > light (fallback).
+      (function () {
+        try {
+          var storedTheme = localStorage.getItem('theme');
+          var theme;
+          if (storedTheme === 'dark' || storedTheme === 'light') {
+            theme = storedTheme;
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = 'dark';
+          } else {
+            theme = 'light';
+          }
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          // localStorage vagy matchMedia nem elérhető (pl. letiltva) —
+          // ez esetben a HTML-ben megadott statikus alapértelmezés marad érvényben.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

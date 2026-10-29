@@ -1,0 +1,10 @@
+<footer>
+  <span class="logo"><span class="bracket">&lt;</span>ts<span class="bracket">/&gt;</span></span>
+  <span>Tamás Szarvas<span id="footerYear"></span></span>
+</footer>
+
+<script>
+  // Az évszám kliensoldalon íródik be, hogy a statikus kimenet ne évüljön el.
+  const year = document.getElementById('footerYear');
+  if (year) year.textContent = ' · ' + new Date().getFullYear();
+</script>

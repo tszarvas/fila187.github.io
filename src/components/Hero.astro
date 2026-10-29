@@ -1,0 +1,20 @@
+---
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang);
+---
+
+<section class="hero" id="hero">
+  <div class="logo"><span class="bracket">&lt;</span>ts<span class="bracket">/&gt;</span></div>
+  <h1>Tamás Szarvas</h1>
+  <div class="role mono">Senior Symfony Engineer</div>
+  <p class="tagline">{t('hero.tagline')}</p>
+  <div class="cta-row">
+    <a href="#contact" class="btn btn-primary">{t('cta.contact')}</a>
+    <a href="#projects" class="btn btn-secondary">{t('cta.projects')}</a>
+  </div>
+</section>

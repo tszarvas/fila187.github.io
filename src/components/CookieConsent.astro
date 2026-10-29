@@ -1,0 +1,75 @@
+---
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div id="cookieConsent" role="dialog" aria-label={t('aria.cookieConsent')} hidden>
+  <p>{t('cookie.text')}</p>
+  <div class="actions">
+    <button type="button" id="cookieDecline">{t('cookie.decline')}</button>
+    <button type="button" id="cookieAccept">{t('cookie.accept')}</button>
+  </div>
+</div>
+
+<script>
+  declare global {
+    interface Window {
+      gtag?: (...args: unknown[]) => void;
+    }
+  }
+
+  // A döntés a localStorage-ban: "granted" | "denied". Döntésig a GA
+  // "denied" módban marad (az alapértelmezést a fejben állítjuk be).
+  const CONSENT_KEY = 'cookie_consent';
+  const banner = document.getElementById('cookieConsent') as HTMLElement;
+  const acceptBtn = document.getElementById('cookieAccept') as HTMLButtonElement;
+  const declineBtn = document.getElementById('cookieDecline') as HTMLButtonElement;
+
+  function updateConsent(state: 'granted' | 'denied') {
+    window.gtag?.('consent', 'update', {
+      analytics_storage: state,
+      ad_storage: state,
+    });
+  }
+
+  let stored: string | null;
+  try {
+    stored = localStorage.getItem(CONSENT_KEY);
+  } catch (e) {
+    stored = null;
+  }
+
+  if (stored === 'granted') {
+    updateConsent('granted');
+  } else if (stored !== 'denied') {
+    banner.hidden = false;
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    try {
+      localStorage.setItem(CONSENT_KEY, 'granted');
+    } catch (e) {}
+    updateConsent('granted');
+    banner.hidden = true;
+  });
+
+  declineBtn.addEventListener('click', () => {
+    try {
+      localStorage.setItem(CONSENT_KEY, 'denied');
+    } catch (e) {}
+    banner.hidden = true;
+  });
+
+  // CV letöltések követése GA4 eseményként
+  document.querySelectorAll('a[download]').forEach((a) => {
+    a.addEventListener('click', () => {
+      window.gtag?.('event', 'cv_download');
+    });
+  });
+</script>

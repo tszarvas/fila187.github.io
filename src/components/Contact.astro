@@ -1,0 +1,19 @@
+---
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang);
+---
+
+<section id="contact">
+  <h2>{t('nav.contact')}</h2>
+  <div class="contact-list">
+    <a href="mailto:hello@tamasszarvas.me">hello@tamasszarvas.me</a>
+    <a href="https://www.linkedin.com/in/tszarvas/" target="_blank" rel="noopener">linkedin.com/in/tszarvas</a>
+    <a href="https://github.com/tszarvas" target="_blank" rel="noopener">github.com/tszarvas</a>
+  </div>
+  <a href={`/${t('cv.href')}`} class="btn btn-primary cv-link" download>{t('cv.download')}</a>
+</section>
