@@ -1,0 +1,60 @@
+---
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
+import { useTranslations, ogLocales, bcp47, otherLang, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+}
+
+const { lang, title, description } = Astro.props;
+const t = useTranslations(lang);
+
+const url = getAbsoluteLocaleUrl(lang);
+const huUrl = getAbsoluteLocaleUrl('hu');
+const enUrl = getAbsoluteLocaleUrl('en');
+const image = new URL('/og-image-v2.png', Astro.site).href;
+
+// A nyelvfüggetlen mezők az eredeti index.html JSON-LD blokkjából származnak.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Tamás Szarvas',
+  url,
+  image,
+  jobTitle: t('person.jobTitle'),
+  description: t('person.description'),
+  inLanguage: bcp47[lang],
+  email: 'mailto:contact@tamasszarvas.me',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Budapest',
+    addressCountry: 'HU',
+  },
+  knowsAbout: ['PHP', 'Symfony', 'React', 'Flutter', 'Ibexa DXP'],
+  sameAs: ['https://www.linkedin.com/in/tszarvas/', 'https://github.com/tszarvas'],
+};
+---
+
+<link rel="canonical" href={url} />
+<link rel="alternate" hreflang="hu" href={huUrl} />
+<link rel="alternate" hreflang="en" href={enUrl} />
+<link rel="alternate" hreflang="x-default" href={huUrl} />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:locale" content={ogLocales[lang]} />
+<meta property="og:locale:alternate" content={ogLocales[otherLang(lang)]} />
+<meta property="og:image" content={image} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+<script type="application/ld+json" set:html={JSON.stringify(person)} />
