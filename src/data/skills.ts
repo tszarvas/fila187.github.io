@@ -22,6 +22,8 @@ export const skills: SkillGroup[] = [
   {
     title: 'Frontend',
     badges: [
+      { label: 'Twig', core: true },
+      { label: 'Webpack (Symfony Encore)' },
       { label: 'React (Symfony UX)' },
       { label: 'TypeScript' },
       { label: 'Vanilla JS', core: true },
@@ -52,6 +54,11 @@ export const skills: SkillGroup[] = [
   },
   {
     title: { hu: 'Egyéb', en: 'Other' },
-    badges: [{ label: 'Solr' }, { label: 'Fastly' }, { label: 'n8n' }],
+    badges: [
+      { label: 'Solr' },
+      { label: 'Fastly' },
+      { label: 'n8n' },
+      { label: 'Figma (Dev Mode, design-to-code)' },
+    ],
   },
 ];
